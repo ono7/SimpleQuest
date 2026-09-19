@@ -1,0 +1,4 @@
+## Interface: 110000
+## Title: SimpleQuest
+## Notes: Auto-accepts and auto-turns in quests, stopping for gear choices.
+SimpleQuest.lua
