@@ -1,0 +1,33 @@
+name: Package Addon Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          path: SimpleQuest
+
+      - name: Package Archive
+        run: |
+          # Build a clean release artifact containing only the root addon folder
+          zip -r SimpleQuest-${{ github.ref_name }}.zip SimpleQuest \
+            -x "SimpleQuest/.git*" \
+            -x "SimpleQuest/.github*"
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: SimpleQuest-${{ github.ref_name }}.zip
+          make_latest: "true"
+          prerelease: false
+          generate_release_notes: true
